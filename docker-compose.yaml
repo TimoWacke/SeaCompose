@@ -1,0 +1,40 @@
+version: '3'
+services:
+  frontend:
+    container_name: loyalty_frontend
+    build:
+      context: .
+    image: loyalty-frontend
+    working_dir: /app
+    command: sh -c "git clone git@github.com:TimoWacke/loyalty-v3.git && cd loyalty-v3 && npm install && npm run build"
+    networks:
+      - loyalty_network
+    depends_on:
+      - nginx
+
+  backend:
+    container_name: loyalty_backend
+    build:
+      context: .
+    image: loyalty-backend
+    working_dir: /app
+    command: sh -c "git clone git@github.com:TimoWacke/loyalty.git && cd loyalty && npm install && node index.js"
+    networks:
+      - loyalty_network
+    depends_on:
+      - nginx
+
+  nginx:
+    container_name: loyalty_nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    networks:
+      - loyalty_network
+
+networks:
+  loyalty_network:
+    driver: bridge
+

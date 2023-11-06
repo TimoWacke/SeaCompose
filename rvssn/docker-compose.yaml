@@ -1,0 +1,15 @@
+version: '3'
+services:
+    clone:
+        image: alpine/git
+        volumes:
+            - ./clone:/rvssn-2.0
+        command: ["clone", "https://@github.com/TimoWacke/rvssn-2.0"]
+    build:
+        image: node:14.15.4-alpine3.12
+        
+        working_dir: /app
+        command: ["npm", "start"]
+        depends_on:
+            - clone
+

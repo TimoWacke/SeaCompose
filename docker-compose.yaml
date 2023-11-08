@@ -1,27 +1,44 @@
 version: '3.7'
 services:
-  rvssn-clone:
-    image: alpine/git
-    volumes:
-      -
   loyalty-frontend:
-    build:
-      context: ./loyalty/frontend
-      args:
-        - GIT_TOKEN=${GIT_TOKEN}
-      # volumes to app/dist for nginx
+    image: node:14.15.4-alpine
     volumes:
-      - ./loyalty/frontend/dist:/app/dist
-    depends_on:
-      - loyalty-backend
+      - ./loyalty/frontend:/app
+    working_dir: /app
+    command: sh -c "npm i && npm run build && chmod -R 755 ./loyalty/frontend/dist && rm -rf node_modules"
+    
   loyalty-backend:
-    build: 
-      context: ./loyalty/backend
-      args:
-        - GIT_TOKEN=${GIT_TOKEN}
-    env_file: ./loyalty/backend/.env
+    image: node:14.15.4-alpine
     volumes:
       - ./loyalty/backend:/app
+    working_dir: /app
+    command: sh -c "npm i && npm start"
+    env_file:
+      - ./loyalty/.env
+    ports:
+      - 3030:3030
+    
+  nginx:
+    image: nginx:1.19.6-alpine
+    volumes:
+      - ./loyalty/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./loyalty/frontend/dist:/usr/share/nginx/html
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - loyalty-frontend
+      - loyalty-backend
+    ports:
+      - 80:80
+      - 443:443
+  certbot:
+    image: certbot/certbot
+    command: certonly --webroot -w /var/www/certbot --keep-until-expiring --agree-tos --email ${GIT_EMAIL} -d loyalty.sea.hamburg -d framed.sea.hamburg -d sea.hamburg -d loyalty.timopictur.es -d framed.timopictur.es 
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - nginx
   portainer:
     image: portainer/portainer
     ports: 

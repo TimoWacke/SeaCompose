@@ -5,8 +5,8 @@ server {
 
     # for whatever specfic domain used -> get the specific
     # certificate for that domain
-    ssl_certificate /etc/letsencrypt/live/@DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/@DOMAIN/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$host/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
 
     location / {
         proxy_pass http://loyalty-backend:3030;

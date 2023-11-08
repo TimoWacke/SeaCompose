@@ -5,3 +5,4 @@ loyalty/nginx/default.conf
 certbot
 *.env
 *google-secret.json
+loyalty/nginx/default.conf

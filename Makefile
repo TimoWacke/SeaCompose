@@ -72,5 +72,5 @@ clean:
 	rm -rf ./loyalty/frontend
 	rm -rf ./loyalty/backend
 	rm -rf ./loyalty/nginx/default.conf
-	rm -rf ./loyalty/.env
-	rm -rf .env
+#	rm -rf ./loyalty/.env
+#	rm -rf .env

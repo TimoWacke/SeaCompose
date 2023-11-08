@@ -5,8 +5,8 @@ server {
     server_name @DOMAIN;
 
     # certificate for that domain
-    ssl_certificate /etc/letsencrypt/live/@DOMAIN/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/@DOMAIN/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/$host/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
 
     location / {
         return 301 https://@DOMAIN$request_uri;

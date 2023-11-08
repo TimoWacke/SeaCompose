@@ -1,12 +1,15 @@
 SHELL := /bin/bash
 .PHONY: build clone nginx-conf clean
 
-default: clean nginx-conf clone build certbot
+default: clean envinit move-envs nginx-conf clone build certbot
 
 envinit:
-	apt install gcloud
-	gcloud auth activate-service-account --key-file=
-	gsutil cp gs://loyalty-credentials/.env ./loyalty/.env
+	make -C ./gcloud-secrets
+
+move-envs:
+	mv gcloud-secrets/git.env .env
+	mv gcloud-secrets/loyalty.env ./loyalty/.env
+
 
 build: 
 # Build the Docker Compose services
@@ -47,13 +50,15 @@ clone:
 nginx-conf:
 	apt install dos2unix
 	dos2unix ./loyalty/.env
+	mkdir -p ./loyalty/nginx
 	source ./loyalty/.env && \
 	envsubst \
 		'$$FRONTEND_PRIMARY_DOMAIN, $$FRONTEND_REDIRECT_DOMAINS, $$BACKEND_DOMAINS, $$PORT'  \
 	 < loyalty/nginx.template.conf > loyalty/nginx/default.conf
 
 clean:
-	docker-compose down
 	rm -rf ./loyalty/frontend
 	rm -rf ./loyalty/backend
 	rm -rf ./loyalty/nginx/default.conf
+	rm -rf ./loyalty/.env
+	rm -rf .env

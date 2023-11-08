@@ -1,6 +1,6 @@
 portainer
 loyalty/backend
 loyalty/frontend
-.env
+certbot
 *.env
-google-secret.json
+*google-secret.json

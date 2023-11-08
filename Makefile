@@ -3,6 +3,11 @@ SHELL := /bin/bash
 
 default: clean nginx-conf clone build certbot
 
+envinit:
+	apt install gcloud
+	gcloud auth activate-service-account --key-file=
+	gsutil cp gs://loyalty-credentials/.env ./loyalty/.env
+
 build: 
 # Build the Docker Compose services
 	docker-compose build

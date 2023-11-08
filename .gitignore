@@ -3,3 +3,4 @@ loyalty/backend
 loyalty/frontend
 .env
 *.env
+google-secret.json

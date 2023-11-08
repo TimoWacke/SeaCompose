@@ -5,7 +5,7 @@ services:
     volumes:
       - ./loyalty/frontend:/app
     working_dir: /app
-    command: sh -c "npm i && npm run build && chmod -R 755 ./loyalty/frontend/dist && rm -rf node_modules"
+    command: sh -c "npm i && npm run build && chmod -R 755 ./dist && rm -rf node_modules"
     
   loyalty-backend:
     image: node:14.15.4-alpine

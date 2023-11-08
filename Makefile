@@ -33,12 +33,11 @@ certbot:
 			" certbot; \
 	done
 # Change Permissions
-	chmod -R 755 ./data/certbot/conf
+	chmod -R 755 ./certbot/conf
 # Restart Nginx
 	docker-compose restart nginx
 
-# Permissions
-	chmod -R 755 ./data/certbot/conf
+	chmod -R 755 ./certbot/conf
 	docker-compose restart nginx
 clone:
 	source .env && \

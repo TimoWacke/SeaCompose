@@ -1,0 +1,28 @@
+# redirect domains
+
+server {
+    listen 443 ssl;
+    server_name @DOMAIN;
+
+    # certificate for that domain
+    ssl_certificate /etc/letsencrypt/live/@DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/@DOMAIN/privkey.pem;
+
+    location / {
+        return 301 https://@DOMAIN$request_uri;
+    }
+}
+
+# HTTP to HTTPS Redirects
+server {
+    listen 80;
+    server_name @DOMAIN;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}

@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: build clone nginx-conf clean
+.PHONY: build clone nginx-conf clean certbot
 
 default: clean envinit move-envs nginx-conf clone build certbot
 
@@ -34,6 +34,7 @@ certbot:
 	done
 # Change Permissions
 	chmod -R 755 ./certbot/conf
+	chmod -R 755 ./loyalty/frontend/dist
 # Restart Nginx
 	docker-compose restart nginx
 
@@ -47,13 +48,25 @@ clone:
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_BACKEND.git ./loyalty/backend
 	
 nginx-conf:
-	apt install dos2unix
-	dos2unix ./loyalty/.env
-	mkdir -p ./loyalty/nginx
+# for each domain in $FRONTEND_REDIRECT_DOMAINS, $BACKEND_DOMAINS, $FRONTEND_PRIMARY_DOMAIN
+# with the corresponding template in ./nginx
+# sed substitute the domain in the correct template and appends to ./nginx/default.conf
+	rm -rf ./loyalty/nginx/default.conf
+	touch ./loyalty/nginx/default.conf
+	source .env	&& \
 	source ./loyalty/.env && \
-	envsubst \
-		'$$FRONTEND_PRIMARY_DOMAIN, $$FRONTEND_REDIRECT_DOMAINS, $$BACKEND_DOMAINS, $$PORT'  \
-	 < loyalty/nginx.template.conf > loyalty/nginx/default.conf
+	for domain in $$FRONTEND_REDIRECT_DOMAINS; do \
+		echo Adding $$domain to nginx configuration && \
+		sed "s/@DOMAIN/$$domain/g"  ./loyalty/nginx/template.frontendredirect >> ./loyalty/nginx/default.conf; \
+	done && \
+	for domain in $$BACKEND_DOMAINS; do \
+		echo Adding $$domain to nginx configuration && \
+		sed "s/\@DOMAIN/$$domain/g"  ./loyalty/nginx/template.backend >> ./loyalty/nginx/default.conf; \
+	done && \
+	for domain in $$FRONTEND_PRIMARY_DOMAIN; do \
+		echo Adding $$domain to nginx configuration && \
+		sed "s/\@DOMAIN/$$domain/g" ./loyalty/nginx/template.frontend >> ./loyalty/nginx/default.conf; \
+	done
 
 clean:
 	rm -rf ./loyalty/frontend

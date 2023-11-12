@@ -1,44 +1,15 @@
 version: '3.7'
 services:
-  loyalty-frontend:
-    image: node:14.15.4-alpine
-    volumes:
-      - ./loyalty/frontend:/app
-    working_dir: /app
-    command: sh -c "npm i && npm run build && chmod -R 755 ./dist && rm -rf node_modules"
-    
-  loyalty-backend:
-    image: node:14.15.4-alpine
-    volumes:
-      - ./loyalty/backend:/app
-    working_dir: /app
-    command: sh -c "npm i && npm start"
-    env_file:
-      - ./loyalty/.env
-    ports:
-      - 3030:3030
-    
   nginx:
     image: nginx:1.19.6-alpine
     volumes:
-      - ./loyalty/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./loyalty/frontend/dist:/usr/share/nginx/html
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - loyalty-frontend
-      - loyalty-backend
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
       - 443:443
-  certbot:
-    image: certbot/certbot
-    command: certonly --webroot -w /var/www/certbot --keep-until-expiring --agree-tos --email ${GIT_EMAIL} -d loyalty.sea.hamburg -d framed.sea.hamburg -d sea.hamburg -d loyalty.timopictur.es -d framed.timopictur.es 
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - nginx
+    networks:
+      - loyalty
+      - rvssn
   portainer:
     image: portainer/portainer
     ports: 
@@ -46,3 +17,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer/data:/data
+
+networks:
+  loyalty:
+    external: true
+  rvssn:
+    external: true

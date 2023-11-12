@@ -9,7 +9,7 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
 
     location / {
-        return 301 https://@DOMAIN$request_uri;
+        return 301 https://loyalty.timopictur.es$request_uri;
     }
 }
 

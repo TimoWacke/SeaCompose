@@ -16,8 +16,8 @@ envinit:
 
 build: 
 # Make the loyalty and rvssn services
-	make -C ./loyalty
 	make -C ./rvssn
+	make -C ./loyalty
 # Build the Docker Compose services
 	docker-compose build
 # Run the Docker Compose services

@@ -37,8 +37,8 @@ services:
     depends_on:
       - loyalty-backend
     ports:
-      - 80:80
-      - 443:443
+      - 8080:80
+      - 4438:443
 
   certbot:
     image: certbot/certbot

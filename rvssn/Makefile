@@ -18,7 +18,6 @@ build:
 # run docker-compose certbot command with -d domain
 certbot:
 	source ../.env && \
-	source ./.env && \
 	for domain in rvssn.de; do \
 		docker-compose run --rm --entrypoint "\
 			certbot certonly --webroot -w /var/www/certbot \

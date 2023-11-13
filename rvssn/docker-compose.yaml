@@ -3,7 +3,7 @@ services:
   rvssn-backend:
     image: node:14.15.4-alpine
     volumes:
-      - ./rvssn2.0/backend:/app
+      - ./backend:/app
     working_dir: /app
     command: sh -c "npm i && npm start"
     env_file:
@@ -20,8 +20,8 @@ services:
     depends_on:
       - rvssn-backend
     ports:
-      - 8080:80
-      - 4438:443
+      - 8081:80
+      - 4439:443
   
   certbot:
     image: certbot/certbot

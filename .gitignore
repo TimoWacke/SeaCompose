@@ -1,7 +1,9 @@
 portainer
 loyalty/backend
 loyalty/frontend
+loyalty/finance
 loyalty/nginx/default.conf
+rvssn/backend
 certbot
 *.env
 *google-secret.json

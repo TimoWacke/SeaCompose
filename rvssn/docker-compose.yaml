@@ -8,6 +8,8 @@ services:
     command: sh -c "npm i && npm start"
     env_file:
       - .env
+    ports:
+      - 5500:5500
 
   rvssn-nginx:
     image: nginx:1.19.6-alpine
@@ -16,10 +18,10 @@ services:
       - ../certbot/conf:/etc/letsencrypt
       - ../certbot/www:/var/www/certbot
     depends_on:
-      - loyalty-backend
+      - rvssn-backend
     ports:
-      - 80:80
-      - 443:443
+      - 8080:80
+      - 4438:443
   
   certbot:
     image: certbot/certbot
@@ -28,9 +30,4 @@ services:
       - ../certbot/conf:/etc/letsencrypt
       - ../certbot/www:/var/www/certbot
     depends_on:
-      - nginx
-
-networks:
-  rvssn:
-    driver: bridge
-      
+      - rvssn-nginx

@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .PHONY: build clone nginx-conf clean certbot
 
-default: clean envinit nginx-conf clone build
+default: nginx-conf clone build
 
 envinit:
 	make -C ./gcloud-secrets
@@ -18,7 +18,6 @@ build:
 # Make the loyalty and rvssn services
 	make -C ./loyalty
 	make -C ./rvssn
-
 # Build the Docker Compose services
 	docker-compose build
 # Run the Docker Compose services

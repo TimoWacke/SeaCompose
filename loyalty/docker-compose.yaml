@@ -7,7 +7,6 @@ services:
     working_dir: /app
     command: sh -c "npm i && npm run build && chmod -R 755 ./dist && rm -rf node_modules"
 
-  
   loyalty-backend:
     image: node:14.15.4-alpine
     volumes:
@@ -25,6 +24,8 @@ services:
     command: sh -c "npm i && npm start"
     env_file:
       - finance.env
+    ports:
+      - 3030:4269
 
   loyalty-nginx:
     image: nginx:1.19.6-alpine
@@ -46,8 +47,4 @@ services:
       - ../certbot/conf:/etc/letsencrypt
       - ../certbot/www:/var/www/certbot
     depends_on:
-      - nginx
-
-networks:
-  loyalty:
-    driver: bridge
+      - loyalty-nginx

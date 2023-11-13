@@ -32,7 +32,7 @@ certbot:
 # Change Permissions
 	chmod -R 755 ../certbot/conf
 # Restart Nginx
-	docker-compose restart nginx
+	docker-compose restart rvssn-nginx
 
 
 clean:

@@ -5,11 +5,11 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - 80:80
-      - 443:443
+      - 8080:80
+      - 4438:443
     networks:
-      - loyalty
-      - rvssn
+      - loyalty_default
+      - rvssn_default
   portainer:
     image: portainer/portainer
     ports: 
@@ -19,7 +19,7 @@ services:
       - ./portainer/data:/data
 
 networks:
-  loyalty:
+  loyalty_default:
     external: true
-  rvssn:
+  rvssn_default:
     external: true

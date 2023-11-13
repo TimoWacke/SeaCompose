@@ -6,6 +6,7 @@ default: clean nginx-conf clone build certbot
 clone:
 # Clone the frontend and backend repositories
 	source ../.env && \
+	source ./.env && \
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_BACKEND.git ./backend && \
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_FRONTEND.git ./frontend && \
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_FINANCE.git ./finance
@@ -35,7 +36,7 @@ certbot:
 # Change Permissions
 	chmod -R 755 ../certbot/conf
 # Restart Nginx
-	docker-compose restart nginx
+	docker-compose restart loyalty-nginx
 
 
 nginx-conf:

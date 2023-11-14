@@ -9,7 +9,7 @@ server {
     ssl_certificate /etc/letsencrypt/live/$host/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$host/privkey.pem;
 
-    root /usr/share/nginx/html;
+    root /usr/share/nginx/html/loyalty;
 
     location / {
         try_files $uri $uri/ /index.html;

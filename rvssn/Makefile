@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .PHONY: build clone clean certbot
 
-default: clean clone build certbot
+default: clean clone build 
 
 clone:
 # Clone the frontend and backend repositories
@@ -18,7 +18,7 @@ build:
 # run docker-compose certbot command with -d domain
 certbot:
 	source ../.env && \
-	for domain in rvssn.de; do \
+	for domain in rvssn.de www.rvssn.de; do \
 		docker-compose run --rm --entrypoint "\
 			certbot certonly --webroot -w /var/www/certbot \
 			--email $$GIT_EMAIL \
@@ -30,6 +30,7 @@ certbot:
 	done
 # Change Permissions
 	chmod -R 755 ../certbot/conf
+	chmod -R 755 /home/rvssn
 # Restart Nginx
 	docker-compose restart rvssn-nginx
 

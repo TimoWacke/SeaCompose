@@ -4,6 +4,11 @@ services:
     image: nginx:1.19.6-alpine
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./loyalty/frontend/dist:/usr/share/nginx/html/loyalty
+      - /home/rvssn:/usr/share/nginx/html/rvssn
+    command: /bin/sh -c "chown -R nginx:nginx /usr/share/nginx/html/rvssn && exec nginx -g 'daemon off;'"
+    user: "nginx"
     ports:
       - 80:80
       - 443:443

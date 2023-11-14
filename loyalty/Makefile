@@ -1,7 +1,7 @@
 SHELL := /bin/bash
-.PHONY: build clone nginx-conf clean certbot
+.PHONY: build clone nginx-conf clean 
 
-default: clean nginx-conf clone build certbot
+default: clean nginx-conf clone build 
 
 clone:
 # Clone the frontend and backend repositories

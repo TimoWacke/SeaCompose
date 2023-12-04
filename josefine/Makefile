@@ -8,6 +8,10 @@ clone:
 	source ../.env && \
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/josefinehenkel.git ./frontend
 
+	chmod -R 755 ./frontend
+# give the user www-data access to the frontend directory
+	chown -R www-data:www-data ./frontend
+
 build: 
 # Build the Docker Compose services
 	docker-compose build
@@ -29,8 +33,8 @@ certbot:
 			" certbot; \
 	done
 # Change Permissions
-	chmod -R 755 ../certbot/conf
-	chmod -R 755 ../josefine/frontend
+	chmod -R 755 ../certbot/config
+
 # Restart Nginx
 	docker-compose restart nginx
 

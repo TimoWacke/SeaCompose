@@ -22,7 +22,7 @@ server {
     server_name @DOMAIN;
 
     location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
+        root /var/www/certbot/;
     }
 
     location / {

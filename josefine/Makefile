@@ -33,13 +33,14 @@ certbot:
 			" certbot; \
 	done
 # Change Permissions
-	chmod -R 755 ../certbot/config
+	chmod -R 755 ../certbot/conf
 
 # Restart Nginx
-	docker-compose restart nginx
+	make nginx -C ..
 
 
 clean:
 	docker-compose down
 	rm -rf ./frontend
+
 

@@ -7,6 +7,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
       - ./loyalty/frontend/dist:/usr/share/nginx/html/loyalty
+      - ./decrypto/repository/dist:/usr/share/nginx/html/decrypto
       - /home/rvssn:/usr/share/nginx/html/rvssn
       - ./josefine/frontend:/usr/share/nginx/html/josefine
     command: /bin/sh -c "chown -R nginx:nginx /usr/share/nginx/html/rvssn && exec nginx -g 'daemon off;'"
@@ -17,6 +18,7 @@ services:
     networks:
       - loyalty_default
       - rvssn_default
+      - decrypto_default
   portainer:
     image: portainer/portainer
     ports: 
@@ -29,4 +31,6 @@ networks:
   loyalty_default:
     external: true
   rvssn_default:
+    external: true
+  decrypto_default:
     external: true

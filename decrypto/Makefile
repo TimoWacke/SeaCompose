@@ -4,13 +4,13 @@ SHELL := /bin/bash
 default: clean clone build certbot
 
 clone:
-# Clone the frontend and backend repositories
+# Clone the repository
 	source ../.env && \
-	git clone https://github.com/josefinezh/JosefineHenkel.git ./frontend
+	git clone https://github.com/TimoWacke/DecryptoGame.git ./repository
 
-	chmod -R 755 ./frontend
+	chmod -R 755 ./repository
 # give the user www-data access to the frontend directory
-	chown -R www-data:www-data ./frontend
+	chown -R www-data:www-data ./repository
 
 build: 
 # Build the Docker Compose services
@@ -22,7 +22,7 @@ build:
 # run docker-compose certbot command with -d domain
 certbot:
 	source ../.env && \
-	for domain in josefine-henkel.sea.hamburg; do \
+	for domain in decrypto.sea.hamburg; do \
 		docker-compose run --rm --entrypoint "\
 			certbot certonly --webroot -w /var/www/certbot \
 			--email $$GIT_EMAIL \
@@ -40,7 +40,7 @@ certbot:
 
 
 clean:
-	docker-compose down
-	rm -rf ./frontend
+	docker-compose down -v --remove-orphans
+	rm -rf ./repository
 
 

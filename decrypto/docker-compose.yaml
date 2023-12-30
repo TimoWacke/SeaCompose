@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+
+  vue-builder:
+    image: node:21.5.0-alpine
+    volumes:
+      - ./repository:/app
+    working_dir: /app
+    command: sh -c "npm i && npm run build && chmod -R 755 ./dist && rm -rf node_modules"
+  
+  decrypto-api:
+    image: node:21.5.0-alpine
+    volumes:
+      - ./repository/api:/app
+    working_dir: /app
+    command: sh -c "npm i && npm start"
+    ports:
+      - 8080:1234
+
+  certbot:
+    image: certbot/certbot
+    command: certonly --webroot -w /var/www/certbot --keep-until-expiring --agree-tos --email wacketimo@gmail.com -d decrypto.sea.hamburg
+    volumes:
+      - ../certbot/conf:/etc/letsencrypt
+      - ../certbot/www:/var/www/certbot
+

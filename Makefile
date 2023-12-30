@@ -19,6 +19,7 @@ build:
 # Make the loyalty and rvssn services
 	make -C ./rvssn
 	make -C ./josefine
+	make -C ./decrypto
 #	make -C ./loyalty
 
 # merge loyalty/nginx/default.conf and rvssn/nginx/default.conf
@@ -44,6 +45,7 @@ nginx:
 	cat ./loyalty/nginx/default.conf >> ./nginx/default.conf
 	cat ./rvssn/nginx/default.conf >> ./nginx/default.conf
 	cat ./josefine/nginx/default.conf >> ./nginx/default.conf
+	cat ./decrypto/nginx/default.conf >> ./nginx/default.conf
 
 	docker-compose restart nginx
 

@@ -47,7 +47,7 @@ nginx:
 	cat ./josefine/nginx/default.conf >> ./nginx/default.conf
 	cat ./decrypto/nginx/default.conf >> ./nginx/default.conf
 
-	docker-compose restart nginx
+	docker-compose up -d
 
 clean:
 	rm -rf ./loyalty/.env

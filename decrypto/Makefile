@@ -40,7 +40,8 @@ certbot:
 
 
 clean:
-	docker-compose down -v --remove-orphans
+	cd .. && docker-compose stop nginx && cd ./decrypto
+	docker-compose down
 	rm -rf ./repository
 
 

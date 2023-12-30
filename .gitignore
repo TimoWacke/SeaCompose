@@ -8,3 +8,4 @@ certbot
 *.env
 *google-secret.json
 loyalty/nginx/default.conf
+decrypto/repository

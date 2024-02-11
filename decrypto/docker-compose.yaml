@@ -15,7 +15,7 @@ services:
     working_dir: /app
     command: sh -c "npm i && npm start"
     ports:
-      - 8080:1234
+      - 1234:1234
 
   certbot:
     image: certbot/certbot

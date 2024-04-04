@@ -8,9 +8,10 @@ services:
     command: sh -c "npm i && npm run build && chmod -R 755 ./dist && rm -rf node_modules"
 
   loyalty-backend:
-    image: node:14.15.4-alpine
+    image: node:14.15.4-alpine  # or selenium/standalone-firefox:latest
     volumes:
       - ./backend:/app
+      - ./pixtures:/pixtures
     working_dir: /app
     command: sh -c "npm i && npm start"
     ports:
@@ -27,7 +28,7 @@ services:
     env_file:
       - finance.env
     ports:
-      - 3030:4269
+      - 4269:4269
 
   certbot:
     image: certbot/certbot

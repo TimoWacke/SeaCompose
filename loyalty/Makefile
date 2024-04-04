@@ -9,8 +9,8 @@ clone:
 	source ./.env && \
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_BACKEND.git ./backend && \
 	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_FRONTEND.git ./frontend && \
-	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_FINANCE.git ./finance
-	
+	git clone https://$$GIT_TOKEN@github.com/$$GIT_USER/$$GIT_REPO_FINANCE.git ./finance && \
+	git clone https://$$GIT_TOKEN@github.com/TimoWacke/Pixtures.git	./pixtures
 
 build: 
 # Build the Docker Compose services
@@ -69,5 +69,6 @@ clean:
 	rm -rf ./frontend
 	rm -rf ./backend
 	rm -rf ./finance
+	rm -rf ./pixtures
 	rm -rf ./nginx/default.conf
 
